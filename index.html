@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>fightwatch - home</title>
+	<style type="text/css">
+		html { font-family: sans-serif; background-color: #0F0F0F; color: #FAFAFA}
+		a { text-decoration: none; color: #FAFAFA; }
+		a:hover { text-decoration: underline; }
+		h1 { padding-top: 0; margin-top: 0; }
+	</style>
+</head>
+
+<!-- Title, Headline, Venue, Start -->
+<body>
+	<h1>/ <a href="">FightWatch</a></h1>
+	<p>Updated {{ .Created }}</p>
+
+	{{ range .Pages }}
+		<h2><a href="{{ .URL }}">{{ .Title }} - {{ .Headline }}</a></h2>
+	{{ else }}
+		<p>
+			No events found.
+		</p>
+	{{ end }}
+</body>
+</html>

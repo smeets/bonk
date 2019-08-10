@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>fightwatch - {{ .Title }} {{ .Headline }}</title>
+	<style type="text/css">
+		html { font-family: sans-serif; background-color: #0F0F0F; color: #FAFAFA}
+		a { text-decoration: none; color: #FAFAFA; }
+		a:hover { text-decoration: underline; }
+		h1 { padding-top: 0; margin-top: 0; }
+		.fightcard > h2 { text-align: center; }
+		.fightcard > hr { color: #F0F0F0; width: 50%; }
+		.fightcard > .fights { display: flex; flex-wrap: wrap; justify-content: center; }
+		.bout { display: flex; margin: 2rem; align-items: center; }
+		.bout > .vs { margin-top: auto; margin-bottom: auto; font-style: italic; font-weight: bold; text-decoration: underline; }
+		.corner { }
+		.corner > .pict { display: block; margin-left: auto; margin-right: auto; }
+		.corner > .name { display: block; text-align: center; }
+	</style>
+</head>
+
+<!-- Title, Headline, Venue, Start -->
+<body>
+	<h1>/ <a href="/">FightWatch</a> / <a href="{{ .URL }}">{{ .Title }} - {{ .Headline }}</a></h1>
+	<p>{{ .Start }}</p>
+	<p>{{ .Venue }}</p>
+
+	{{ range .Cards }}
+		<div class="fightcard">
+			<h2>{{ .Name }}</h2>
+			<hr>
+			<div class="fights">
+				{{ range .Fights }}
+					<div class="bout">
+						<div class="corner red">
+							<img class="pict" src="{{ .Red.Image }}" height="250px" />
+						 	<span class="name">{{ .Red.Name }}</span>
+						</div>
+						<span class="vs">vs</span>
+						<div class="corner blue">
+							<img class="pict" src="{{ .Blue.Image }}" height="250px" />
+							<span class="name">{{ .Blue.Name }}</span>
+						</div>
+					</div>
+				{{ end }}
+			</div>
+		</div>
+	{{ else }}
+		<p>
+			No fight card found.
+		</p>
+	{{ end }}
+</body>
+</html>
