@@ -18,20 +18,9 @@ func bailout(msg string, err error) {
 }
 
 func createdatadir(datapath string) {
-	_, err := os.Stat(datapath)
-	if os.IsNotExist(err) || os.IsExist(err) {
-	    err = os.Mkdir(datapath, os.ModeDir)
-	    if !os.IsExist(err) {
-	    	bailout("mkdata:", err)
-	    }
-	} else {
-		bailout("datadir:", err)
-	}
-
-	err = os.Mkdir(path.Join(datapath, "event"), os.ModeDir)
-	if !os.IsExist(err) {
-		bailout("mkdata:", err)
-	}
+	evtdir := path.Join(datapath, "event")
+	err := os.MkdirAll(evtdir, os.ModePerm)
+	bailout("createdatadir:", err)
 }
 
 type Page struct {

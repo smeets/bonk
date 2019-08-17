@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>fightwatch - {{ .Title }} {{ .Headline }}</title>
+	<title>bonk - {{ .Title }} {{ .Headline }}</title>
 	<style type="text/css">
 		html { font-family: sans-serif; background-color: #0F0F0F; color: #FAFAFA}
 		a { text-decoration: none; color: #FAFAFA; }
@@ -22,7 +22,7 @@
 
 <!-- Title, Headline, Venue, Start -->
 <body>
-	<h1>/ <a href="/">FightWatch</a> / <a href="{{ .URL }}">{{ .Title }} - {{ .Headline }}</a></h1>
+	<h1>/ <a href="/">bonk</a> / <a href="{{ .URL }}">{{ .Title }} - {{ .Headline }}</a></h1>
 	<p>{{ .Start }}</p>
 	<p>{{ .Venue }}</p>
 
@@ -35,12 +35,12 @@
 					<div class="bout">
 						<div class="corner red">
 							<img class="pict" src="{{ .Red.Image }}" height="250px" />
-						 	<span class="name">{{ .Red.Name }}</span>
+						 	<a class="name" href="{{ .Red.Profile }}">{{ .Red.Name }}</a>
 						</div>
 						<span class="vs">vs</span>
 						<div class="corner blue">
 							<img class="pict" src="{{ .Blue.Image }}" height="250px" />
-							<span class="name">{{ .Blue.Name }}</span>
+							<a class="name" href="{{ .Blue.Profile }}">{{ .Blue.Name }}</a>
 						</div>
 					</div>
 				{{ end }}

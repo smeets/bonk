@@ -1,5 +1,6 @@
-fightwatch.exe
-fightwatch
+bonk
+bonk.exe
 index.go
 event.go
-data/
+data/event
+data/index.html

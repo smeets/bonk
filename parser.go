@@ -3,6 +3,8 @@ package main
 import (
 	"github.com/PuerkitoBio/goquery"
 	"strings"
+	"time"
+	"fmt"
 )
 
 type Event struct {
@@ -23,7 +25,7 @@ type Fight struct {
 }
 
 type Corner struct {
-	Name, Image string
+	Name, Image, Profile string
 }
 
 func getpict(sel *goquery.Selection, corner string) string {
@@ -44,6 +46,15 @@ func getname(sel *goquery.Selection, corner string) string {
 	return given + " " + family
 }
 
+func getprofile(sel *goquery.Selection, corner string) string {
+	full := getname(sel, corner)
+	names := strings.Split(full, " ")
+	for i, _ := range names {
+		names[i] = strings.ToLower(names[i])
+	}
+	return "https://www.ufc.com/athlete/" + strings.Join(names, "-")
+}
+
 func trim(str string) string {
 	str = strings.TrimSpace(str)
 	all := strings.Split(str, "\n")
@@ -61,6 +72,21 @@ func NewEvent(doc *goquery.Document) *Event {
 	when := trim(hero.Find(".c-hero__headline-suffix").Text())
 	where := trim(doc.Find(".c-hero__text").Text())
 
+	f := "Mon, Jan 2 / 3:04 PM MST"
+	twhen, err := time.Parse(f, when)
+	if err == nil {
+		sweden, err := time.LoadLocation("Europe/Stockholm")
+		if err == nil {
+			twhen = twhen.AddDate(time.Now().Year(), 0, 0)
+			twhen = twhen.In(sweden)
+			when = twhen.Format("Mon, Jan 2 / 15:04 MST")
+		} else {
+			fmt.Println(err)
+		}
+	} else {
+		fmt.Println(err)
+	}
+			
 	event := Event{
 		Title: prefix,
 		URL: "",
@@ -96,10 +122,12 @@ func NewEvent(doc *goquery.Document) *Event {
 				Blue: Corner{
 					Name: getname(sel, "blue"),
 					Image: getpict(sel, "blue"),
+					Profile: getprofile(sel, "blue"),
 				},
 				Red: Corner{
 					Name: getname(sel, "red"),
 					Image: getpict(sel, "red"),
+					Profile: getprofile(sel, "red"),
 				},
 			}
 
