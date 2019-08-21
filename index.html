@@ -8,7 +8,9 @@
 		html { font-family: sans-serif; background-color: #0F0F0F; color: #FAFAFA}
 		a { text-decoration: none; color: #FAFAFA; }
 		a:hover { text-decoration: underline; }
-		h1 { padding-top: 0; margin-top: 0; }
+		h1 { padding-top: 0; margin-top: 0; margin-bottom: 0; }
+		h2 { margin-bottom: 0; }
+		p { margin-top: 0.25rem; color: rgb(200,200,200); }
 	</style>
 </head>
 
@@ -19,6 +21,7 @@
 
 	{{ range .Pages }}
 		<h2><a href="{{ .URL }}">{{ .Title }} - {{ .Headline }}</a></h2>
+		<p>{{ .Start }}</p>
 	{{ else }}
 		<p>
 			No events found.
