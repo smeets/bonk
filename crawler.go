@@ -13,7 +13,13 @@ func getevent(url string) (*goquery.Document, error) {
 		url = www + url
 	}
 
-	res, err := http.Get(url)
+	req, err := http.NewRequest("GET", url, nil)
+	if err != nil {
+		return nil, err
+	}
+	req.Header.Set("Cookie", "UFCCookieTest=1; STYXKEY_region=SWEDEN.en-se.Europe/Stockholm")
+	req.Header.Set("Accept-Language", "en-se")
+	res, err := http.DefaultClient.Do(req)
 	if err != nil {
 		return nil, err
 	}
@@ -31,8 +37,12 @@ func getevent(url string) (*goquery.Document, error) {
 
 func findevents() []string {
 	www := "https://www.ufc.com/events"
-
-	res, err := http.Get(www)
+	// 
+	req, err := http.NewRequest("GET", www, nil)
+	bailout("newreq:", err)
+	req.Header.Set("Cookie", "UFCCookieTest=1; STYXKEY_region=SWEDEN.en-se.Europe/Stockholm")
+	req.Header.Set("Accept-Language", "en-se")
+	res, err := http.DefaultClient.Do(req)
 	bailout("findevents:", err)
 
 	defer res.Body.Close()
