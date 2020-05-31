@@ -1,31 +1,62 @@
 <!DOCTYPE html>
 <html>
+
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>bonk - home</title>
 	<style type="text/css">
-		html { font-family: sans-serif; background-color: #0F0F0F; color: #FAFAFA}
-		a { text-decoration: none; color: #FAFAFA; }
-		a:hover { text-decoration: underline; }
-		h1 { padding-top: 0; margin-top: 0; margin-bottom: 0; }
-		h2 { margin-bottom: 0; }
-		p { margin-top: 0.25rem; color: rgb(200,200,200); }
+		html {
+			font-family: sans-serif;
+			background-color: #0F0F0F;
+			color: #FAFAFA
+		}
+
+		a {
+			text-decoration: underline;
+			color: #FAFAFA;
+		}
+
+		a:hover {
+			color: #BABABA;
+		}
+
+		h1 {
+			padding-top: 0;
+			margin-top: 0;
+			margin-bottom: 0;
+		}
+
+		h2,
+		h3 {
+			margin-bottom: 0;
+		}
+
+		p {
+			margin-top: 0.25rem;
+			color: rgb(200, 200, 200);
+		}
 	</style>
 </head>
 
 <!-- Title, Headline, Venue, Start -->
+
 <body>
 	<h1>/ <a href="">bonk</a></h1>
-	<p>Updated {{ .Created }}</p>
 
+	<h2>Upcoming events</h2>
 	{{ range .Pages }}
-		<h2><a href="{{ .URL }}">{{ .Title }} - {{ .Headline }}</a></h2>
-		<p>{{ .Start }}</p>
+	<h3><a href="{{ .URL }}">{{ .Title }} - {{ .Headline }}</a></h3>
+	<p>{{ .Start }}</p>
 	{{ else }}
-		<p>
-			No events found.
-		</p>
+	<p>
+		No events found.
+	</p>
 	{{ end }}
+
+	<h2><a href="/event">All events</a></h2>
+	<p></p>
+	<p>Last updated {{ .Created }}</p>
 </body>
+
 </html>
