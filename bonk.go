@@ -1,6 +1,7 @@
 package main
 //go:generate templify event.html
 //go:generate templify index.html
+//go:generate templify list.html
 
 import (
 	"fmt"
@@ -23,11 +24,6 @@ func createdatadir(datapath string) {
 	bailout("createdatadir:", err)
 }
 
-type Page struct {
-	*Event
-	URL string
-}
-
 func main() {
 	outdir := "./data"
 	createdatadir(outdir)
@@ -45,6 +41,9 @@ func main() {
 
 	idxtpl, err := template.New("index").Parse(indexTemplate())
 	bailout("index template:", err)
+
+	lsttpl, err := template.New("list").Parse(listTemplate())
+	bailout("list template:", err)
 
 	// Deduplicate some links that seem to come next to each other
 	for i := 0; i < len(eventlinks)-1; i++ {
@@ -80,7 +79,7 @@ func main() {
 
 		evttpl.Execute(evtfile, event)
 		pages = append(pages, Page{event,eventlink + ".html"})
-		
+
 		fmt.Println("generated", eventlink, evtpath)
 	}
 
@@ -99,4 +98,27 @@ func main() {
 		Created: time.Now().Format("2006-01-02 15:04:05 (-0700 MST)"),
 	}
 	idxtpl.Execute(idxfile, idxctx)
+
+	// update database with potentially new pages/events
+	dbfile := path.Join(outdir, "store.json")
+	store := LoadStore(dbfile)
+	store.Merge(pages)
+	store.Save(dbfile)
+
+	// generate event/index.html
+	lstfile, err := os.Create(path.Join(outdir, "event", "index.html"))
+	if err != nil {
+		fmt.Println("eventgen:", lstfile)
+		os.Exit(1)
+	}
+	defer lstfile.Close()
+
+	lstctx := struct {
+		Pages []Page
+		Created string
+	}{
+		Pages: store.Events,
+		Created: time.Now().Format("2006-01-02 15:04:05 (-0700 MST)"),
+	}
+	lsttpl.Execute(lstfile, lstctx)
 }
