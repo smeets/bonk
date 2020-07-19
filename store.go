@@ -17,7 +17,7 @@ type Store struct {
 }
 
 func LoadStore(path string) *Store {
-    file, err := os.Create(path)
+    file, err := os.OpenFile(path, os.O_RDWR|os.O_CREATE, 0755)
     bailout("store:", err)
     defer file.Close()
 
@@ -47,7 +47,7 @@ func (s *Store) Merge(pages []Page) {
 }
 
 func (s *Store) Save(path string) {
-    file, err := os.Create(path)
+    file, err := os.OpenFile(path, os.O_RDWR|os.O_CREATE, 0755)
     bailout("save:", err)
     defer file.Close()
 
