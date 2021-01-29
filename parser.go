@@ -64,7 +64,7 @@ func trim(str string) string {
 
 func NewEvent(doc *goquery.Document) *Event {
 	hero := doc.Find(".c-hero__header")
-	prefix := trim(hero.Find(".c-hero__headline-prefix h2").Text())
+	prefix := trim(hero.Find(".c-hero__headline-prefix h1").Text())
 	maineventa := trim(hero.Find(".c-hero__headline > span > span:first-child").Text())
 	maineventb := trim(hero.Find(".c-hero__headline > span > span:last-child").Text())
 	when := trim(hero.Find(".c-hero__headline-suffix").Text())
