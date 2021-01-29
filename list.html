@@ -45,7 +45,7 @@
     <h1>/ <a href="/">bonk</a> / <a href="/event">event</a></h1>
 
     {{ range .Pages }}
-    <h3><a href="{{ .URL }}">{{ .Title }} - {{ .Headline }}</a></h3>
+    <h3><a href="{{ .URL }}">{{ .Title }} - {{ .Headline }} ({{ .Start }})</a></h3>
     {{ else }}
     <p>No events found.</p>
     {{ end }}
